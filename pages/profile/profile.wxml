@@ -1,0 +1,86 @@
+<!--pages/profile/profile.wxml-->
+<view class="page">
+  <!-- 用户信息 -->
+  <view class="user-section card">
+    <view class="user-info">
+      <view class="avatar-container">
+        <open-data wx:if="{{canIUseOpenData}}" type="userAvatarUrl" class="user-avatar"></open-data>
+        <image wx:else class="user-avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}"></image>
+      </view>
+      <view class="user-details">
+        <view class="username">
+          <open-data wx:if="{{canIUseOpenData}}" type="userNickName" class="user-nickname"></open-data>
+          <text wx:else>{{userInfo.nickName || '微信用户'}}</text>
+        </view>
+        <view class="user-desc">坚持打卡，养成好习惯</view>
+      </view>
+    </view>
+    
+    <!-- 获取用户信息按钮 -->
+    <view wx:if="{{!hasUserInfo}}" class="get-user-info">
+      <button 
+        wx:if="{{canIUseGetUserProfile}}"
+        class="get-user-btn"
+        bindtap="getUserProfile"
+      >
+        获取用户信息
+      </button>
+      <button 
+        wx:elif="{{canIUse}}"
+        class="get-user-btn"
+        open-type="getUserInfo"
+        bindgetuserinfo="getUserInfo"
+      >
+        获取用户信息
+      </button>
+    </view>
+  </view>
+
+  <!-- 打卡统计 -->
+  <view class="stats-section card">
+    <view class="stats-title">我的打卡统计</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-number">{{checkinStats.totalCount}}</view>
+        <view class="stat-label">总打卡次数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{checkinStats.continuousDays}}</view>
+        <view class="stat-label">连续打卡天数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{checkinStats.thisMonth}}</view>
+        <view class="stat-label">本月打卡次数</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="card">
+      <view class="menu-list">
+        <view 
+          wx:for="{{menuList}}" 
+          wx:key="action"
+          class="menu-item"
+          data-action="{{item.action}}"
+          bindtap="handleMenuClick"
+        >
+          <view class="menu-left">
+            <view class="menu-icon">{{item.icon}}</view>
+            <view class="menu-content">
+              <view class="menu-title">{{item.title}}</view>
+              <view class="menu-desc">{{item.desc}}</view>
+            </view>
+          </view>
+          <view class="menu-arrow">></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-section">
+    <view class="version-text">每日打卡 v1.0.0</view>
+  </view>
+</view> 

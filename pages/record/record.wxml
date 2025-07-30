@@ -1,0 +1,78 @@
+<!--pages/record/record.wxml-->
+<view class="page">
+  <!-- 统计信息 -->
+  <view class="stats-section card">
+    <view class="stats-title">打卡统计</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-number">{{totalCount}}</view>
+        <view class="stat-label">总打卡次数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{continuousDays}}</view>
+        <view class="stat-label">连续打卡天数</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="records-section">
+    <view wx:if="{{groupedRecords.length === 0}}" class="empty-state">
+      <view class="empty-icon">📝</view>
+      <view class="empty-text">暂无打卡记录</view>
+      <view class="empty-desc">开始你的第一次打卡吧！</view>
+    </view>
+
+    <view wx:else>
+      <view wx:for="{{groupedRecords}}" wx:key="month" class="month-group">
+        <view class="month-header">
+          <view class="month-title">{{item.month}}</view>
+          <view class="month-count">{{item.records.length}}次打卡</view>
+        </view>
+        
+        <view class="records-list">
+          <view 
+            wx:for="{{item.records}}" 
+            wx:for-item="record" 
+            wx:key="timestamp"
+            class="record-item"
+          >
+            <view class="record-main">
+              <view class="record-left">
+                <view class="record-type">
+                  <text class="type-icon">{{getTypeIcon(record.type)}}</text>
+                  <text class="type-name">{{getTypeName(record.type, record.customType)}}</text>
+                </view>
+                <view class="record-time">
+                  <text class="record-date">{{record.date}}</text>
+                  <text class="record-hour">{{record.time}}</text>
+                </view>
+                <view wx:if="{{record.note}}" class="record-note">{{record.note}}</view>
+              </view>
+              
+              <view class="record-actions">
+                <button 
+                  class="delete-btn"
+                  data-index="{{index}}"
+                  bindtap="deleteRecord"
+                >
+                  删除
+                </button>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view wx:if="{{records.length > 0}}" class="action-section">
+    <button 
+      class="btn-secondary clear-btn"
+      bindtap="clearAllRecords"
+    >
+      清空所有记录
+    </button>
+  </view>
+</view> 

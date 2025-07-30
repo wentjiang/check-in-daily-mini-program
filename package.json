@@ -1,0 +1,22 @@
+{
+  "name": "wechat-mini-program-checkin",
+  "version": "1.0.0",
+  "description": "每日打卡微信小程序",
+  "main": "app.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.0",
+    "miniprogram-api-typings": "^3.9.0"
+  },
+  "keywords": [
+    "wechat",
+    "miniprogram",
+    "typescript",
+    "checkin"
+  ],
+  "author": "AI Assistant",
+  "license": "MIT"
+} 

@@ -1,0 +1,87 @@
+<!--pages/index/index.wxml-->
+<view class="page">
+  <!-- 用户信息区域 -->
+  <view class="user-section card">
+    <view class="flex-between">
+      <view class="user-info">
+        <view class="avatar-container">
+          <open-data wx:if="{{canIUseOpenData}}" type="userAvatarUrl" class="user-avatar"></open-data>
+          <image wx:else class="user-avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}"></image>
+        </view>
+        <view class="user-details">
+          <view class="username">
+            <open-data wx:if="{{canIUseOpenData}}" type="userNickName" class="user-nickname"></open-data>
+            <text wx:else>{{userInfo.nickName || '微信用户'}}</text>
+          </view>
+          <view class="greeting">{{greeting}}</view>
+        </view>
+      </view>
+      <view class="date-info">
+        <view class="current-date">{{currentDate}}</view>
+        <view class="day-status {{todayChecked ? 'checked' : ''}}">
+          {{todayChecked ? '已打卡' : '未打卡'}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 打卡统计 -->
+  <view class="stats-section">
+    <view class="stats-card card">
+      <view class="stats-title">打卡统计</view>
+      <view class="stats-grid">
+        <view class="stat-item">
+          <view class="stat-number">{{checkinCount}}</view>
+          <view class="stat-label">总打卡次数</view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-number">{{continuousDays}}</view>
+          <view class="stat-label">连续打卡天数</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快速打卡 -->
+  <view class="quick-checkin-section">
+    <view class="card">
+      <view class="section-title">快速打卡</view>
+      <view class="quick-checkin-content">
+        <view class="checkin-status">
+          <view class="status-icon {{todayChecked ? 'checked' : ''}}">
+            <text class="iconfont">{{todayChecked ? '✓' : '○'}}</text>
+          </view>
+          <view class="status-text">
+            <view class="status-title">{{todayChecked ? '今日已打卡' : '今日未打卡'}}</view>
+            <view class="status-desc">{{todayChecked ? '继续保持，明天见！' : '点击下方按钮快速打卡'}}</view>
+          </view>
+        </view>
+        
+        <button 
+          class="btn-primary checkin-btn {{todayChecked ? 'disabled' : ''}}"
+          bindtap="quickCheckin"
+          disabled="{{todayChecked}}"
+        >
+          {{todayChecked ? '今日已打卡' : '立即打卡'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能导航 -->
+  <view class="nav-section">
+    <view class="card">
+      <view class="section-title">更多功能</view>
+      <view class="nav-grid">
+        <view class="nav-item" bindtap="goToCheckin">
+          <view class="nav-icon">📝</view>
+          <view class="nav-text">详细打卡</view>
+        </view>
+        <view class="nav-item" bindtap="goToRecord">
+          <view class="nav-icon">📊</view>
+          <view class="nav-text">打卡记录</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 

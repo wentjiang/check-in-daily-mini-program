@@ -1,0 +1,187 @@
+/* pages/index/index.wxss */
+
+.user-section {
+  margin-bottom: 30rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-container {
+  margin-right: 20rpx;
+}
+
+.user-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  border: 4rpx solid #f0f0f0;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.username {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.greeting {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.date-info {
+  text-align: right;
+}
+
+.current-date {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.day-status {
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  background: #f0f0f0;
+  color: #666;
+  display: inline-block;
+}
+
+.day-status.checked {
+  background: #e8f5e8;
+  color: #52c41a;
+}
+
+.stats-section {
+  margin-bottom: 30rpx;
+}
+
+.stats-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 10rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.quick-checkin-section {
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+}
+
+.quick-checkin-content {
+  text-align: center;
+}
+
+.checkin-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40rpx;
+}
+
+.status-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  font-size: 40rpx;
+  color: #999;
+}
+
+.status-icon.checked {
+  background: #e8f5e8;
+  color: #52c41a;
+}
+
+.status-text {
+  text-align: left;
+}
+
+.status-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.status-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.checkin-btn {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+}
+
+.checkin-btn.disabled {
+  background: #f0f0f0;
+  color: #999;
+}
+
+.nav-section {
+  margin-bottom: 30rpx;
+}
+
+.nav-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-item {
+  text-align: center;
+  flex: 1;
+  padding: 20rpx;
+}
+
+.nav-icon {
+  font-size: 60rpx;
+  margin-bottom: 16rpx;
+}
+
+.nav-text {
+  font-size: 28rpx;
+  color: #333;
+} 
