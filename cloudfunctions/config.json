@@ -1,9 +1,0 @@
-{
-  "env": "your-env-id",
-  "database": {
-    "collections": [
-      "checkin_records",
-      "user_profiles"
-    ]
-  }
-} 

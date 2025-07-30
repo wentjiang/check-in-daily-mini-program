@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # MySQL数据库
+  mysql:
+    image: mysql:8.0
+    container_name: checkin_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123456
+      MYSQL_DATABASE: checkin_app
+      MYSQL_USER: checkin_user
+      MYSQL_PASSWORD: checkin123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - checkin_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Python后端服务
+  backend:
+    build: ./backend
+    container_name: checkin_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://checkin_user:checkin123456@mysql:3306/checkin_app
+      - SECRET_KEY=your-secret-key-here-change-this-in-production
+      - WECHAT_APPID=${WECHAT_APPID:-your-wechat-appid}
+      - WECHAT_SECRET=${WECHAT_SECRET:-your-wechat-secret}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - ./logs:/app/logs
+    networks:
+      - checkin_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      timeout: 30s
+      retries: 5
+      start_period: 40s
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  checkin_network:
+    driver: bridge 

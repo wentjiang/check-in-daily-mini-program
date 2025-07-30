@@ -48,8 +48,8 @@
     "typescript": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.19.4",
-  "appid": "wxe27f382e8cac53c9",
+  "libVersion": "3.8.12",
+  "appid": "wx3ad997ea9fce70ba",
   "projectname": "每日打卡",
   "condition": {},
   "editorSetting": {

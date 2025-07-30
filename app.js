@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const cloud_1 = require("./utils/cloud");
+const api_1 = require("./utils/api");
 // app.ts
 App({
     onLaunch() {
@@ -8,34 +8,34 @@ App({
         const logs = wx.getStorageSync('logs') || [];
         logs.unshift(Date.now());
         wx.setStorageSync('logs', logs);
-        // 获取用户openid
-        this.getOpenid();
+        // 检查登录状态
+        this.checkLoginStatus();
     },
-    async getOpenid() {
+    async checkLoginStatus() {
         try {
-            const { result } = await wx.cloud.callFunction({
-                name: 'login'
-            });
-            this.globalData.openid = result.openid;
-            console.log('获取openid成功:', result.openid);
+            const token = api_1.apiService.getToken();
+            if (token) {
+                // 验证token有效性
+                const userProfile = await api_1.apiService.getUserProfile();
+                this.globalData.userInfo = userProfile;
+                this.globalData.token = token;
+                console.log('登录状态有效');
+            }
         }
         catch (error) {
-            console.error('获取openid失败:', error);
+            console.error('登录状态检查失败:', error);
+            api_1.apiService.clearToken();
         }
     },
     globalData: {
         userInfo: null,
         checkinRecords: [],
-        openid: null
+        token: null
     },
     // 获取打卡记录
     async getCheckinRecords() {
-        if (!this.globalData.openid) {
-            console.error('openid未获取');
-            return [];
-        }
         try {
-            const records = await cloud_1.cloudService.getCheckinRecords(this.globalData.openid);
+            const records = await api_1.apiService.getCheckinRecords();
             this.globalData.checkinRecords = records;
             return records;
         }
@@ -46,14 +46,12 @@ App({
     },
     // 添加打卡记录
     async addCheckinRecord(record) {
-        if (!this.globalData.openid) {
-            throw new Error('openid未获取');
-        }
+        var _a;
         try {
-            const recordId = await cloud_1.cloudService.addCheckinRecord(record);
+            const newRecord = await api_1.apiService.createCheckinRecord(record);
             // 重新获取记录列表
             await this.getCheckinRecords();
-            return recordId;
+            return ((_a = newRecord._id) === null || _a === void 0 ? void 0 : _a.toString()) || '';
         }
         catch (error) {
             console.error('添加打卡记录失败:', error);
@@ -62,11 +60,8 @@ App({
     },
     // 检查今天是否已打卡
     async isTodayChecked() {
-        if (!this.globalData.openid) {
-            return false;
-        }
         try {
-            return await cloud_1.cloudService.isTodayChecked(this.globalData.openid);
+            return await api_1.apiService.isTodayChecked();
         }
         catch (error) {
             console.error('检查今日打卡状态失败:', error);
@@ -75,15 +70,13 @@ App({
     },
     // 获取用户统计信息
     async getUserStats() {
-        if (!this.globalData.openid) {
-            return {
-                totalCount: 0,
-                continuousDays: 0,
-                thisMonth: 0
-            };
-        }
         try {
-            return await cloud_1.cloudService.getUserStats(this.globalData.openid);
+            const stats = await api_1.apiService.getCheckinStats();
+            return {
+                totalCount: stats.total_count,
+                continuousDays: stats.continuous_days,
+                thisMonth: stats.this_month
+            };
         }
         catch (error) {
             console.error('获取用户统计失败:', error);
