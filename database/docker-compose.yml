@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql:
-    build: .
+    image: mysql:8.0
     container_name: checkin_mysql
     restart: unless-stopped
     environment:
@@ -14,7 +14,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - mysql_logs:/var/log/mysql
+      - ./init:/docker-entrypoint-initdb.d
     networks:
       - mysql_network
     healthcheck:
@@ -26,8 +26,6 @@ services:
 
 volumes:
   mysql_data:
-    driver: local
-  mysql_logs:
     driver: local
 
 networks:

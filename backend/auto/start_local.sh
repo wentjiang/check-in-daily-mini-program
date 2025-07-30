@@ -111,20 +111,18 @@ init_database() {
     # 激活虚拟环境
     source venv/bin/activate
     
-    # 运行数据库迁移
-    cd src
+    # 运行数据库迁移 - 在backend目录下运行
     python -c "
 import os
 import sys
-sys.path.append('..')
-from database import engine
-from models import Base
+sys.path.append('.')
+from src.database import engine
+from src.models import Base
 
 # 创建所有表
 Base.metadata.create_all(bind=engine)
 print('数据库表创建完成')
 "
-    cd ..
     
     print_message "数据库初始化完成"
 }
@@ -136,9 +134,8 @@ start_backend() {
     # 激活虚拟环境
     source venv/bin/activate
     
-    # 启动服务
-    cd src
-    python run.py
+    # 启动服务 - 在backend目录下运行，这样Python能找到src模块
+    python -m uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload
 }
 
 # 显示帮助信息
