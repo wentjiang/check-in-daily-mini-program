@@ -5,11 +5,11 @@ from typing import List, Optional
 import uvicorn
 from datetime import datetime, timedelta
 
-from database import get_db, engine
-import models
-import schemas
-import crud
-from auth import get_current_user
+from .database import get_db, engine
+from . import models
+from . import schemas
+from . import crud
+from .auth import get_current_user
 
 # 创建数据库表
 models.Base.metadata.create_all(bind=engine)

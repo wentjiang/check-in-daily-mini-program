@@ -9,9 +9,9 @@ import requests
 import os
 from dotenv import load_dotenv
 
-from database import get_db
-import models
-import crud
+from .database import get_db
+from . import models
+from . import crud
 
 load_dotenv()
 

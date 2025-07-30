@@ -16,7 +16,7 @@ if __name__ == "__main__":
     print("API文档: http://localhost:8000/docs")
     
     uvicorn.run(
-        "app:app",
+        "src.app:app",
         host=host,
         port=port,
         reload=True,  # 开发模式，自动重载

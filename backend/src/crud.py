@@ -2,9 +2,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func, and_
 from datetime import datetime, timedelta
 from typing import List, Optional
-import models
-import schemas
-from auth import create_access_token, get_wechat_openid
+from . import models
+from . import schemas
+from .auth import create_access_token, get_wechat_openid
 
 # 用户相关CRUD操作
 def get_user_by_id(db: Session, user_id: int):
