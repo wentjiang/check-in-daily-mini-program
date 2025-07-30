@@ -33,6 +33,25 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
+### 使用virtualenv（推荐用于本地开发）
+```bash
+# 安装virtualenv
+pip install virtualenv
+
+# 创建虚拟环境
+virtualenv venv
+
+# 激活虚拟环境
+# Windows
+venv\Scripts\activate
+# macOS/Linux
+source venv/bin/activate
+
+# 验证虚拟环境
+which python  # 应该指向venv目录下的python
+pip list      # 查看已安装的包
+```
+
 ### 安装依赖
 ```bash
 cd backend
@@ -51,6 +70,37 @@ brew install mysql
 
 # Windows
 # 下载MySQL安装包
+```
+
+### 启动MySQL服务
+```bash
+# Ubuntu/Debian
+sudo systemctl start mysql
+sudo systemctl enable mysql
+
+# macOS
+brew services start mysql
+
+# Windows
+# 通过服务管理器启动MySQL服务
+```
+
+### 仅启动MySQL（用于本地开发）
+```bash
+# 如果使用Docker Compose，可以只启动MySQL服务
+docker-compose up mysql
+
+# 或者使用docker命令单独启动MySQL容器
+docker run --name mysql-checkin \
+  -e MYSQL_ROOT_PASSWORD=root_password \
+  -e MYSQL_DATABASE=checkin_app \
+  -e MYSQL_USER=checkin_user \
+  -e MYSQL_PASSWORD=your_password \
+  -p 3306:3306 \
+  -d mysql:8.0
+
+# 检查MySQL容器状态
+docker ps | grep mysql
 ```
 
 ### 创建数据库
@@ -87,9 +137,26 @@ PORT=8000
 
 ## 4. 启动服务
 
-### 开发模式
+### 开发模式（使用虚拟环境）
 ```bash
+# 确保虚拟环境已激活
+source venv/bin/activate  # macOS/Linux
+# 或 venv\Scripts\activate  # Windows
+
+# 启动开发服务器
 python run.py
+
+# 或者使用uvicorn直接启动（支持热重载）
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
+
+### 调试模式
+```bash
+# 启用详细日志和调试模式
+uvicorn app:app --reload --log-level debug --host 0.0.0.0 --port 8000
+
+# 或者使用Python调试器
+python -m pdb run.py
 ```
 
 ### 生产模式

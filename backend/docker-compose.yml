@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # MySQL数据库
   mysql:
-    image: mysql:8.0
+    build: ./database
     container_name: checkin_mysql
     restart: unless-stopped
     environment:
@@ -15,14 +15,15 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
-    command: --default-authentication-plugin=mysql_native_password
+      - mysql_logs:/var/log/mysql
     networks:
       - checkin_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123456"]
       timeout: 20s
       retries: 10
+      interval: 30s
+      start_period: 60s
 
   # Python后端服务
   backend:
@@ -52,6 +53,8 @@ services:
 
 volumes:
   mysql_data:
+    driver: local
+  mysql_logs:
     driver: local
 
 networks:

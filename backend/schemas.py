@@ -16,11 +16,6 @@ class UserLogin(BaseModel):
     code: str
     user_info: Optional[UserBase] = None
 
-class UserLoginResponse(BaseModel):
-    access_token: str
-    token_type: str
-    user: 'UserProfile'
-
 class UserProfile(UserBase):
     id: int
     openid: str
@@ -30,6 +25,11 @@ class UserProfile(UserBase):
 
     class Config:
         from_attributes = True
+
+class UserLoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user: UserProfile
 
 class UserProfileUpdate(UserBase):
     pass
